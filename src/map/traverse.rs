@@ -5,7 +5,6 @@ use super::{
     pos::Pos,
 };
 
-// TODO: ejercicio: completar el cuerpo de la función
 pub fn traverse_grid(
     mut pos: Pos,
     dist: Pos,
@@ -14,7 +13,14 @@ pub fn traverse_grid(
 ) -> (f32, f32, Option<MapObject>) {
     let mut texture = None;
 
-    // ...
+    for _ in 1::MAX_DEPTH {
+        if is_wall(pos) {
+            texture = get_texture(pos);
+            break
+        }
+        pos = pos + dist
+        depth += delta_depth
+    }
 
     (depth, pos.x(), texture)
 }

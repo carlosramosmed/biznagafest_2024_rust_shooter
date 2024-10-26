@@ -18,6 +18,7 @@ impl <'a>ScaledTexture<'a> {
     }
 }
 
+// <'a> -> tiempo de vida del objeto, lo necesita el compilador (?)
 pub struct SDLengine<'a> {
     screen: WindowCanvas,
     events: EventPump,

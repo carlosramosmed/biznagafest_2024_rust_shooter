@@ -9,7 +9,10 @@ use crate::{
 
 use super::{enemy::Enemy, player::Player};
 
-// TODO: ejercicio: definir el enum WeaponState
+#[derive(Clone)]
+enum WeaponState {
+    Idle, Shooting, Reloading
+}
 
 #[derive(Clone)]
 pub struct Weapon {

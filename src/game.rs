@@ -44,10 +44,18 @@ impl<'a> Game<'a> {
             engine.load_refs(&SOLDIER_DYING),
         );
 
-        // TODO: ejercico: añadir más enemigos clonando las secuencias
+        let cloned_sequence = soldier_sequences.clone()
+
+        // O bien
+
+        // let mut enemies = Vec::new() !!importante el mut pars poder añadirle elementos
+
+        // enemies.push(Enemy::new(100, 5, (10.5, 3.5), soldier_sequences, shift, scale))
+        // ...
+
         let enemies = vec![
             Enemy::new(100, 5, (10.5, 3.5), soldier_sequences, shift, scale),
-            // Enemy::new(100, 5, (12.5, 4.5), soldier_sequences.clone(), shift, scale),
+            Enemy::new(100, 5, (12.5, 4.5), cloned_sequence, shift, scale),
         ];
 
         Box::new(Self {
@@ -76,7 +84,23 @@ impl<'a> Game<'a> {
 
     // TODO: ejercicio: escribir el cuerpo de esto
     fn render(&mut self) {
+        let mut components: Vec<Box<dyn Component>> = Vec::new()
 
+        // añade componentes: self, background, armas y enemigos)
+        components.push(Box::new(self.player));
+        components.push(Box::new(self.background));
+        components.push(Box::new(self.weapons));
+        components.extend(self.enemies.iter()
+            .map(|enemy| Box::new(enemy.clone()) as Box<dyn Component>));
+
+        // se crea un array de sprites con todos los componentes
+        let sprites: Vec<Sprite>: components.iter()
+            .filter(|component| component.visible())
+            .flat_map(|component| component.get_sprites())
+            .collect()
+
+        // llama al metodo render
+        self.engine.render(sprites)
     }
 
     fn update(&mut self) -> Vec<Event> {
